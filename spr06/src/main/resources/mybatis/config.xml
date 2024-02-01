@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<settings>
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
+		<setting name="jdbcTypeForNull" value="NULL"/>
+	</settings>
+  	
+  	<typeAliases>
+  		<typeAlias type="com.kh.app.member.vo.MemberVo" alias="MemberVo"/>
+  		<typeAlias type="com.kh.app.board.vo.BoardVo" alias="BoardVo"/>
+  	</typeAliases>
+
+  <environments default="development">
+    <environment id="development">
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="oracle.jdbc.driver.OracleDriver"/>
+        <property name="url" value="jdbc:oracle:thin:@(description=(retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.ap-chuncheon-1.oraclecloud.com))(connect_data=(service_name=gd4d34268684703_practice_high.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))"/>
+        <property name="username" value="PRACTICE"/>
+        <property name="password" value="1234567890aA"/>
+      </dataSource>
+    </environment>
+  </environments>
+</configuration>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="MemberMapper">
+  <select id="getMemberList" resultType="MemberVo">
+    SELECT * 
+    FROM MEMBER
+    WHERE DEL_YN = 'N' 
+	ORDER BY NO DESC
+  </select>
+  
+  <insert id="insertMember">
+	INSERT INTO MEMBER 
+	(NO, ID, PWD, NICK)
+	VALUES 
+	(
+	    SEQ_MEMBER_NO.NEXTVAL
+	    , #{id}
+	    , #{pwd}
+	    , #{nick}
+	)
+  </insert>
+  
+  <select id="getMemberByNo" resultType="MemberVo">
+  	SELECT NO, ID, PWD, NICK, TO_CHAR(ENROLL_DATE, 'YYYY-MM-DD HH24:MI') FROM MEMBER WHERE NO = #{no}
+  </select>
+  
+    <select id="login" resultType="MemberVo">
+  	SELECT NO, ID, PWD, NICK, TO_CHAR(ENROLL_DATE, 'YYYY-MM-DD HH24:MI') FROM MEMBER WHERE ID = #{id} AND PWD = #{pwd}
+  </select>
+  
+  <update id="updateDelynByNo">
+  	UPDATE MEMBER 
+	SET 
+    	DEL_YN = 'Y'  
+    WHERE NO = #{no}
+  </update>
+  
+  <update id="updateMember">
+  	UPDATE MEMBER 
+  	<set>
+	  	<trim prefixOverrides=",">
+	  		<if test="pwd != null and pwd != '' ">
+		      PWD = #{pwd}
+		    </if>
+		    <if test="nick != null and nick != '' ">
+		      , NICK = #{nick}
+		    </if>
+	  	</trim>
+  	</set>
+   WHERE NO = #{no}
+  </update>
+</mapper>

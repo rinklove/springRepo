@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="GalleryMapper">
+	<insert id="insertGallery">
+		INSERT INTO GALLERY
+		(
+		    NO
+		    ,TITLE
+		    ,FULL_PATH
+		    ,WRITER_NO
+		)
+		VALUES
+		(
+		    SEQ_GALLERY_NO.NEXTVAL
+		    , #{title}
+		    , #{fullPath}
+		    , #{writerNo}
+		)
+	</insert>
+	
+	<select id="getList" resultType="com.kh.app.gallery.vo.GalleryVo">
+		SELECT G.NO, G.TITLE, G.FULL_PATH, M.NICK WRITER_NICK, TO_CHAR(G.ENROLL_DATE, 'YYYY-MM-DD') ENROLL_DATE
+		FROM GALLERY G 
+		INNER JOIN MEMBER M 
+		ON G.WRITER_NO = M.NO
+		WHERE G.STATUS = 'O'
+	</select>
+	
+	<update id="increaseHit">
+		UPDATE GALLERY
+		SET 
+			HIT = HIT + 1
+		WHERE NO = #{no}
+	</update>
+	
+	<select id="getOne" resultType="com.kh.app.gallery.vo.GalleryVo">
+		SELECT 
+		    NO
+		    ,TITLE
+		    ,FULL_PATH
+		    ,WRITER_NO
+		    ,HIT
+		    ,ENROLL_DATE
+		    ,MODIFY_DATE
+		    ,STATUS
+		FROM GALLERY
+		WHERE NO = #{no}
+	</select>
+	
+	<update id="updateGallery">
+		UPDATE GALLERY
+	    SET 
+	        TITLE = #{title}
+	    WHERE NO = #{no}
+	    AND STATUS = 'O'
+	</update>
+	
+	<delete id="deleteGallery">
+		UPDATE GALLERY
+	    SET
+	        STATUS = 'X'
+	    WHERE NO = #{no}
+	</delete>
+</mapper>
